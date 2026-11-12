@@ -37,6 +37,14 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease
+      - name: Verify APK identity
+        working-directory: launcher
+        run: |
+          APK=app/build/outputs/apk/release/app-release.apk
+          test -s "$APK"
+          aapt dump badging "$APK" | tee /tmp/apk-badging.txt
+          grep -F "package: name='com.gathin.tvhome'" /tmp/apk-badging.txt
+          grep -F "versionName='3.4'" /tmp/apk-badging.txt
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
