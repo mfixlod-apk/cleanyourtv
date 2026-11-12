@@ -42,6 +42,7 @@ jobs:
         run: |
           APK=app/build/outputs/apk/release/app-release.apk
           test -s "$APK"
+          export PATH="$ANDROID_HOME/build-tools/34.0.0:$PATH"
           aapt dump badging "$APK" | tee /tmp/apk-badging.txt
           grep -F "package: name='com.gathin.tvhome'" /tmp/apk-badging.txt
           grep -F "versionName='3.4'" /tmp/apk-badging.txt
